@@ -1,6 +1,7 @@
 clc;
 clear;
 
+%% Buck Converter
 vo = 12.6; % O/P voltage (V)
 vi = 50; % I/P voltage (V)
 f = 50000; % switching frequency (Hz)
@@ -20,11 +21,11 @@ C_val = 220/1000000
 d_vo = (1-D)*100/(8*L_val*C_val*f*f)
 
 %% Rectifier
-Vm = 50; % max supply voltage (V)
+Vm = 6; % max supply voltage (V)
 Vr = 0.1; % voltage ripple (V)
-R_rect = 100000; % Ohm
-f_supply = 50; % supply frequency (Hz)
-
+R_rect = 100; % Ohm
+f_supply = 5000; % supply frequency (Hz)
+% f_supply = 2*pi*sqrt(4.691*15e-6)
 C_rect =  Vm/(2*f_supply*R_rect*Vr)
 
 R_rect_val = 100000;
@@ -48,21 +49,23 @@ N = 5; % Number of turns in the single layer spiral
 sigma = 59800000; % conductivity of copper
 r = 0.0025; % radius of copper wire (half of wire thickness)
 % another way to do is multiply radius of each strand and number of strands
-
+frequency_oscillator = 5000;
 gama = (Do - Di)/(Do + Di);
 Davg = (Do + Di)/2;
 % Lt = (mu0*mur*N*N*Davg)*(log(2.46/gama) + (0.2*gama*gama))
-Lt = 1/(4*pi*pi*20000*(100e-6));
+% Lt = 1/(4*pi*pi*(frequency_oscillator*frequency_oscillator)*(100e-6));
+Lt = 1/(4*pi*pi*50000*50000*(100e-6))
 Lr = Lt
 
 l = pi*Davg; % length of copper coil (perimeter)
-% Rt = l/(sigma*pi*r*r)
+% Resistance_t = l/(sigma*pi*r*r)
+Resistance_ = 1.1e-5
 Rt = Davg/2
 Rr = Rt
 
 w = 1/sqrt(Lt*Ct)
 
-k = 1/(1+(2^(2/3)*(D/sqrt(Rt*Rr))^2))
+k = 1/(1+(2^(2/3)*(d/sqrt(Rt*Rr))^2))^(3/2)
 
 M = k*sqrt(Lt*Lr)
 
